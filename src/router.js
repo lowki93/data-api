@@ -4,21 +4,18 @@ var user = require('./controllers/user');
 
 module.exports = function (app, passport) {
 
-	var router = express.Router();
+    var router = express.Router();
 
-	//Users
-	router.post('/user', user.create);
-	router.get('/user/:id', user.show);
-	router.delete('/user/:id', user.show);
+    //Users
+    router.post('/user', user.create);
+    router.get('/user/:id', user.show);
+    router.delete('/user/:id', user.show);
+    //
+    //router.post('/login',
+    //    passport.authenticate('local', { successRedirect: '/',
+    //        failureRedirect: '/login',
+    //        failureFlash: true })
+    //);
 
-	app.use('/api', bodyParser.json(), router);
-
-	app.get('/', function (req, res, next) {
-		res.json({
-			syrups: [
-				"Léo",
-				"Glenn"
-			]
-		});
-	});
+    app.use('/api', bodyParser.json(), router);
 };

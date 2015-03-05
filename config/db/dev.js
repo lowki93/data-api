@@ -1,5 +1,5 @@
 module.exports = {
-	url: 'localhost',
-	port: '27017',
-	name: 'syrups'
+    url: 'localhost',
+    port: '27017',
+    name: 'data'
 };

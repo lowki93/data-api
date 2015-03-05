@@ -3,9 +3,11 @@
  * Configuration
  */
 module.exports = function () {
-	return function (req, res, next) {
+    return function (req, res, next) {
 
-		console.log('[x] GET ' + req.url);
-		next();
-	};
+        //console.log(req);
+        //console.log('       ' + req.url);
+        next();
+
+    };
 };
