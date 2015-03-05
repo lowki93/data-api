@@ -42,6 +42,19 @@ describe("USER API", function () {
                 });
         });
 
+        it("should get user not exist", function (done) {
+            request(app)
+                .get('/api/user/' + user.id + 1)
+                .expect(404)
+                .end(function (err, res) {
+                    if (err) {
+                        return done(err);
+                    }
+                    assert.equal(res.body.user, undefined, 'user is null');
+                    done();
+                });
+        });
+
     });
 
 });

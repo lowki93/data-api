@@ -40,7 +40,7 @@ module.exports = {
                     user: user
                 });
             } else {
-                res.status(500).json(err);
+                res.status(404).json(err);
             }
         });
     }
