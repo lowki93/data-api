@@ -31,7 +31,6 @@
     "istanbul": "^0.3.7",
     "key-del": "^0.1.6",
     "mocha": "^2.1.0",
-    "mocha-istanbul": "^0.2.0",
     "mongoose": "~3.8.16",
     "passport": "^0.2.1",
     "passport-local": "^1.0.0"
