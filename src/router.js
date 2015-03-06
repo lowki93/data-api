@@ -9,7 +9,7 @@ module.exports = function (app, passport) {
     //Users
     router.post('/user', user.create);
     router.get('/user/:id', user.show);
-    router.delete('/user/:id', user.show);
+    router.delete('/user/remove/:id', user.remove);
     //
     //router.post('/login',
     //    passport.authenticate('local', { successRedirect: '/',

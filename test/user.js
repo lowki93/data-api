@@ -11,8 +11,8 @@ describe("USER API", function () {
             request(app)
                 .post('/api/user')
                 .send({
-                    name: 'name',
-                    avatar: 'avatar'
+                    email: 'email2',
+                    password: 'password'
                 })
                 .expect(201)
                 .end(function (err, res) {
@@ -21,6 +21,22 @@ describe("USER API", function () {
                     }
                     user = res.body;
 
+                    done();
+                });
+        });
+
+        it("should create user with email is already used", function (done) {
+            request(app)
+                .post('/api/user')
+                .send({
+                    email: 'email2',
+                    password: 'password'
+                })
+                .expect(201)
+                .end(function (err, res) {
+                    if (err) {
+                        return done(err);
+                    }
                     done();
                 });
         });
@@ -37,7 +53,7 @@ describe("USER API", function () {
                     if (err) {
                         return done(err);
                     }
-                    assert.equal(res.body.user.name, user.name, 'name is a string');
+                    assert.equal(res.body.user.email, user.email, 'name is a string');
                     done();
                 });
         });
@@ -51,6 +67,22 @@ describe("USER API", function () {
                         return done(err);
                     }
                     assert.equal(res.body.user, undefined, 'user is null');
+                    done();
+                });
+        });
+
+    });
+
+    describe("REMOVE USER", function () {
+
+        it("should remove user", function (done) {
+            request(app)
+                .delete('/api/user/remove/' + user.id)
+                .expect(200)
+                .end(function (err, res) {
+                    if (err) {
+                        return done(err);
+                    }
                     done();
                 });
         });
