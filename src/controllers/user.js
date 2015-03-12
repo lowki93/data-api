@@ -1,78 +1,133 @@
 var User = require('../models/user');
 var mongoose = require('mongoose');
+var crypto = require('crypto');
 
 module.exports = {
 
     create: function (req, res) {
-        //var md5 = crypto.createHash('md5');
-        //var salt = 'syrupsappsforyou';
-        //console.log(md5);
-        //var token = md5.update((req.param('name') + salt)).digest('hex');
 
-        User.find({email: req.param('email')}, function (err, user) {
-            if (user.length > 0) {
+        var md5 = crypto.createHash('md5');
+        var salt = 'dataapp';
+        var token = md5.update((req.param('email') + salt)).digest('hex');
+        var user = new User({
+            email: req.body.email,
+            password: req.body.password,
+            token: token
+        });
+
+        user.save(function (err) {
+            if (!err) {
+                res.status(201).json({
+                    user: {
+                        id: user.id,
+                        email: user.email,
+                        token: user.token
+                    }
+                });
+            } else {
                 /* istanbul ignore else */
-                if (!err) {
-                    res.status(201).json({
-                        user: 'email already used'
+                if (err.code === 11000) {
+                    res.status(409).json({
+                        error: 'email already used'
                     });
                 } else {
                     res.status(500).json({
                         error: err
                     });
                 }
+            }
+        });
+    },
+
+    login: function (req, res) {
+        User.findOne({email: req.param('email')}, function (err, user) {
+            /* istanbul ignore else */
+            if (!err) {
+                if (user !== null) {
+                    user.verifyPassword(req.param('password'), function (err, isMatch) {
+                        /* istanbul ignore else */
+                        if (!err) {
+                            if (isMatch) {
+                                res.status(200).json({
+                                    user: {
+                                        id: user.id,
+                                        email: user.email,
+                                        token: user.token
+                                    }
+                                });
+                            } else {
+                                res.status(409).json({
+                                    error: 'bad password'
+                                });
+                            }
+                        } else {
+                            res.status(500).json({
+                                error: err
+                            });
+                        }
+                    });
+
+                } else {
+                    res.status(404).json({
+                        user: 'email not find'
+                    });
+                }
             } else {
-                User.create({
-                    email: req.param('email'),
-                    password: req.param('password')
-                }, function (err, user) {
-                    /* istanbul ignore else */
-                    if (!err) {
-                        res.status(201).json({
-                            id: user.id,
-                            email: user.email,
-                            password: user.password
-                        });
-                    } else {
-                        res.status(500).json({
-                            error: err
-                        });
-                    }
+                res.status(500).json({
+                    user: err
                 });
             }
         });
     },
-    //
-    //login: function (req, res) {
-    //    res.status(500).json({
-    //
-    //    });
-    //},
 
     show: function (req, res) {
         User.findById(req.params.id, function (err, user) {
+            /* istanbul ignore else */
             if (!err) {
-                res.status(200).json({
-                    user: user
-                });
+                if (user !== null) {
+                    res.status(200).json({
+                        user: user
+                    });
+                } else {
+                    res.status(404).json({
+                        user: 'user not find'
+                    });
+                }
             } else {
-                res.status(404).json(err);
+                res.status(500).json(err);
             }
         });
     },
 
     remove: function (req, res) {
-        User.remove({
-            _id: req.params.id
-        }, function (err) {
+        User.findById(req.params.id, function (err, user) {
             /* istanbul ignore else */
             if (!err) {
-                res.status(200).json({
-                    delete: true
-                });
+                if (user !== null) {
+                    User.remove({
+                        _id: req.params.id
+                    }, function (err) {
+                        /* istanbul ignore else */
+                        if (!err) {
+                            res.status(200).json({
+                                delete: true
+                            });
+                        } else {
+                            res.status(500).json({
+                                delete: false,
+                                error: err
+                            });
+                        }
+                    });
+                } else {
+                    res.status(404).json({
+                        delete: false,
+                        error: 'user undefined'
+                    });
+                }
             } else {
                 res.status(500).json({
-                    delete: true,
+                    delete: false,
                     error: err
                 });
             }

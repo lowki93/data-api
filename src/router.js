@@ -1,21 +1,16 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var user = require('./controllers/user');
+var authController = require('./controllers/auth');
 
-module.exports = function (app, passport) {
+module.exports = function (app) {
 
     var router = express.Router();
 
     //Users
-    router.post('/user', user.create);
-    router.get('/user/:id', user.show);
-    router.delete('/user/remove/:id', user.remove);
-    //
-    //router.post('/login',
-    //    passport.authenticate('local', { successRedirect: '/',
-    //        failureRedirect: '/login',
-    //        failureFlash: true })
-    //);
-
+    router.post('/user/create', user.create);
+    router.post('/user/login', user.login);
+    router.get('/user/profile/:id', authController.isAuthenticated, user.show);
+    router.delete('/user/remove/:id', authController.isAuthenticated, user.remove);
     app.use('/api', bodyParser.json(), router);
 };
