@@ -69,7 +69,7 @@ module.exports = {
 
                 } else {
                     res.status(404).json({
-                        user: 'email not find'
+                        error: 'email not find'
                     });
                 }
             } else {
@@ -90,7 +90,7 @@ module.exports = {
                     });
                 } else {
                     res.status(404).json({
-                        user: 'user not find'
+                        error: 'user not find'
                     });
                 }
             } else {
