@@ -9,6 +9,7 @@ module.exports = {
         var md5 = crypto.createHash('md5');
         var salt = 'dataapp';
         var token = md5.update((req.param('email') + salt)).digest('hex');
+
         var user = new User({
             email: req.body.email,
             password: req.body.password,
