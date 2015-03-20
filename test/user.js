@@ -114,7 +114,7 @@ describe("USER API", function () {
             request(app)
                 .get('/api/user/profile/' + '1234rfsgnfgbfwvhbhbwbwhw' + '?access_token=' + user.token)
                 .expect(404)
-                .end(function (err, res) {
+                .end(function (err) {
                     if (err) {
                         return done(err);
                     }
