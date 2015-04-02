@@ -21,20 +21,20 @@ module.exports = {
                         });
                         fs.createReadStream(newPath).pipe(unzip.Extract({ path: unzipPath }));
                         // function for remove files
-                        setTimeout(function () {
-                            fs.unlink(newPath);
-                            if (fsExtra.existsSync(unzipPath)) {
-                                fsExtra.readdirSync(unzipPath).forEach(function (file, index) {
-                                    var curPath = unzipPath + "/" + file;
-                                    if (fsExtra.lstatSync(curPath).isDirectory()) { // recurse
-                                        deleteFolderRecursive(curPath);
-                                    } else { // delete file
-                                        fsExtra.unlinkSync(curPath);
-                                    }
-                                });
-                                fs.rmdir(unzipPath);
-                            }
-                        }, 3000);
+                        //setTimeout(function () {
+                        //    fs.unlink(newPath);
+                        //    if (fsExtra.existsSync(unzipPath)) {
+                        //        fsExtra.readdirSync(unzipPath).forEach(function (file, index) {
+                        //            var curPath = unzipPath + "/" + file;
+                        //            if (fsExtra.lstatSync(curPath).isDirectory()) { // recurse
+                        //                deleteFolderRecursive(curPath);
+                        //            } else { // delete file
+                        //                fsExtra.unlinkSync(curPath);
+                        //            }
+                        //        });
+                        //        fs.rmdir(unzipPath);
+                        //    }
+                        //}, 3000);
                     }
                 });
             } else {
