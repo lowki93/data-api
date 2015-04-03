@@ -32,16 +32,18 @@
     "crypto": "0.0.3",
     "express": "~4.9.4",
     "fs": "0.0.2",
+    "fs-extra": "~0.16.5",
     "istanbul": "^0.3.7",
     "key-del": "^0.1.6",
     "mocha": "^2.1.0",
     "mongoose": "~3.8.16",
+    "node-curl": "^0.3.3",
     "passport": "^0.2.1",
     "passport-http": "~0.2.2",
     "passport-http-bearer": "~1.0.1",
     "passport-local": "^1.0.0",
-    "unzip": "~0.1.11",
-    "fs-extra": "~0.16.5"
+    "strftime": "^0.9.0",
+    "unzip": "~0.1.11"
   },
   "devDependencies": {
     "browserify": "^4.1.3",
