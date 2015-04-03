@@ -25,7 +25,10 @@ module.exports = {
                                                 id: user.id,
                                                 email: user.email,
                                                 token: user.token,
-                                                currentData: user.currentData
+                                                currentData: {
+                                                    id: experience.id,
+                                                    private: experience.private
+                                                }
                                             }
                                         });
                                     } else {

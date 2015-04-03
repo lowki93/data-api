@@ -5,7 +5,7 @@ var crypto = require('crypto');
 module.exports = {
 
     create: function (req, res) {
-
+        console.log('toto');
         var md5 = crypto.createHash('md5');
         var salt = 'dataapp';
         var token = md5.update((req.param('email') + salt)).digest('hex');
@@ -26,6 +26,7 @@ module.exports = {
                     }
                 });
             } else {
+                console.log('error');
                 /* istanbul ignore else */
                 if (err.code === 11000) {
                     res.status(409).json({
