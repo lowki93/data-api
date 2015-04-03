@@ -1,8 +1,7 @@
-// lib/models/user.js
-
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt-nodejs');
+var Experience = require('../models/experience');
 
 var schema = new Schema({
     email: {
@@ -16,6 +15,10 @@ var schema = new Schema({
     },
     token: {
         type: String
+    },
+    currentData: {
+        type: Schema.Types.ObjectId,
+        ref: 'Experience'
     }
 });
 

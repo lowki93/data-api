@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var scheme = new Schema({
+var schema = new Schema({
     title: {
         type: String
     },
@@ -11,7 +11,9 @@ var scheme = new Schema({
     private: {
         type: Boolean
     },
-    data: {
-        type: Array
-    }
+    data: [
+        Schema.Types.Mixed
+    ]
 });
+
+module.exports = mongoose.model('Experience', schema);

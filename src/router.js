@@ -2,6 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var user = require('./controllers/user');
 var data = require('./controllers/data');
+var experience = require('./controllers/experience');
 var authController = require('./controllers/auth');
 var files = require('./controllers/files');
 var multipart = require('connect-multiparty');
@@ -17,8 +18,11 @@ module.exports = function (app) {
     router.get('/user/profile/:id', authController.isAuthenticated, user.show);
     router.delete('/user/remove/:id', authController.isAuthenticated, user.remove);
 
+    // Experience
+    router.get('/experience/:id/create', authController.isAuthenticated, experience.create);
+
     // save Data
-    router.post('/data/save', authController.isAuthenticated, data.saveData);
+    router.post('/data/:id/save', authController.isAuthenticated, data.saveData);
 
     // Files
     router.post('/files/uploads', authController.isAuthenticated, multipartMiddleware, files.upload);

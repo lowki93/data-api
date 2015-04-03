@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var scheme = new Schema({
+var schema = new Schema({
     date: {
         type: Date
     },
@@ -12,6 +12,8 @@ var scheme = new Schema({
         type: Array
     },
     atmosphere: {
-        type: Array
+        type: Object
     }
 });
+
+module.exports = mongoose.model('Data', schema);
