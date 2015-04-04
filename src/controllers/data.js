@@ -1,5 +1,4 @@
 var curl = require('node-curl');
-var strftime = require('strftime');
 var User = require('../models/user');
 var Experience = require('../models/experience');
 var Data = require('../models/data');
