@@ -9,8 +9,8 @@ module.exports = {
             if (!err) {
                 if (user !== null) {
                     var newExperience = {
-                        title: null,
-                        description: null,
+                        title: '',
+                        descriptionContent: '',
                         private: false
                     };
                     if (user.currentData === undefined) {

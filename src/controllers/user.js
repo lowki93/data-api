@@ -5,7 +5,6 @@ var crypto = require('crypto');
 module.exports = {
 
     create: function (req, res) {
-        console.log('toto');
         var md5 = crypto.createHash('md5');
         var salt = 'dataapp';
         var token = md5.update((req.param('email') + salt)).digest('hex');
@@ -42,7 +41,7 @@ module.exports = {
     },
 
     login: function (req, res) {
-        User.findOne({email: req.param('email')}, function (err, user) {
+        User.findOne({email: req.param('email')}).populate('currentData').exec(function (err, user) {
             /* istanbul ignore else */
             if (!err) {
                 if (user !== null) {
@@ -54,7 +53,14 @@ module.exports = {
                                     user: {
                                         id: user.id,
                                         email: user.email,
-                                        token: user.token
+                                        token: user.token,
+                                        currentData: {
+                                            id: user.currentData.id,
+                                            title: user.currentData.title,
+                                            descriptionContent:  user.currentData.descriptionContent,
+                                            private:  user.currentData.private,
+                                            data: user.currentData.data
+                                        }
                                     }
                                 });
                             } else {

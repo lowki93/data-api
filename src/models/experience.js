@@ -5,7 +5,7 @@ var schema = new Schema({
     title: {
         type: String
     },
-    description: {
+    descriptionContent: {
         type: String
     },
     private: {

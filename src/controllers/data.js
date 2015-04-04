@@ -18,10 +18,10 @@ module.exports = {
                         if (!err) {
                             atmosphere = JSON.parse(this.body);
                             var data = new Data({
-                                date: strftime('%F %T', new Date(Date.now())),
+                                date: strftime('%F %T'),
                                 atmosphere: atmosphere
                             });
-                            user.currentData.data = user.currentData.data.concat(data);
+                            user.currentData.data = data;//user.currentData.data.concat(data);
                             user.currentData.save(function (err) {
                                 if (!err) {
                                     res.status(200).json({
@@ -29,7 +29,13 @@ module.exports = {
                                             id: user.id,
                                             email: user.email,
                                             token: user.token,
-                                            currentData: user.currentData
+                                            currentData: {
+                                                id: user.currentData.id,
+                                                title: user.currentData.title,
+                                                descriptionContent:  user.currentData.descriptionContent,
+                                                private: user.currentData.private,
+                                                data: user.currentData.data
+                                            }
                                         }
                                     });
                                 } else {
@@ -44,6 +50,7 @@ module.exports = {
                             });
                         }
                     });
+                } else {
                     res.status(404).json({
                         error: 'user undefined'
                     });
