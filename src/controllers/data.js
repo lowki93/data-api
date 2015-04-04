@@ -8,6 +8,7 @@ module.exports = {
     saveData: function (req, res) {
         var latitude = req.body.latitude;
         var longitude = req.body.longitude;
+        var time = req.body.time;
         var atmosphere;
 
         User.findById(req.params.id).populate('currentData').exec(function (err, user) {
@@ -17,10 +18,10 @@ module.exports = {
                         if (!err) {
                             atmosphere = JSON.parse(this.body);
                             var data = new Data({
-                                date: strftime('%F %T'),
+                                date: time,
                                 atmosphere: atmosphere
                             });
-                            user.currentData.data = data;//user.currentData.data.concat(data);
+                            user.currentData.data = user.currentData.data.concat(data);
                             user.currentData.save(function (err) {
                                 if (!err) {
                                     res.status(200).json({
