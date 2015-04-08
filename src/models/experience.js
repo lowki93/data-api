@@ -11,7 +11,7 @@ var schema = new Schema({
     private: {
         type: Boolean
     },
-    data: [
+    day: [
         Schema.Types.Mixed
     ]
 });

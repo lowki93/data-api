@@ -54,13 +54,7 @@ module.exports = {
                                         id: user.id,
                                         email: user.email,
                                         token: user.token,
-                                        currentData: {
-                                            id: user.currentData.id,
-                                            title: user.currentData.title,
-                                            descriptionContent:  user.currentData.descriptionContent,
-                                            private:  user.currentData.private,
-                                            data: user.currentData.data
-                                        }
+                                        currentData: user.currentData
                                     }
                                 });
                             } else {
