@@ -23,7 +23,7 @@ module.exports = {
                         if (!err) {
                             atmosphere = JSON.parse(this.body);
                             var data = new Data({
-                                date: time,
+                                date: moment.unix(time).format('YYYY-MM-DD HH:mm:ss'),
                                 atmosphere: atmosphere
                             });
                             if (user.currentData.day.length !== 0) {
