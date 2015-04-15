@@ -25,7 +25,7 @@ module.exports = function (app) {
     router.post('/data/:id/save', authController.isAuthenticated, data.saveData);
 
     // Files
-    router.post('/files/uploads', authController.isAuthenticated, multipartMiddleware, files.upload);
+    router.post('/files/uploads/:id', authController.isAuthenticated, multipartMiddleware, files.upload);
 
     app.use('/api', bodyParser.json(), router);
 };

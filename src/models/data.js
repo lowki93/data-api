@@ -13,6 +13,9 @@ var schema = new Schema({
     },
     atmosphere: {
         type: Object
+    },
+    photos: {
+        type: Object
     }
 });
 
