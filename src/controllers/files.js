@@ -10,7 +10,7 @@ var curl = require('node-curl');
 module.exports = {
 
     upload: function (req, res) {
-
+        console.log("start upload");
         User.findById(req.params.id).populate('currentData').exec(function (err, user) {
             if (!err) {
                 if (user !== null) {
@@ -29,6 +29,7 @@ module.exports = {
                                 } else {
                                     fs.createReadStream(newPath).pipe(unzip.Extract({ path: unzipPath }).on('close', function () {
                                         fs.readdir(unzipPath, function (err, files) {
+                                            console.log(files);
                                             if (!err) {
                                                 var url = '';
                                                 var i;
@@ -40,7 +41,7 @@ module.exports = {
                                                 }
                                                 var curlRequest = curl.create();
                                                 var test = "urls=http://cdn-parismatch.ladmedia.fr/var/news/storage/images/paris-match/people/sport/teddy-riner-au-musee-grevin-183480/2122502-1-fre-FR/Teddy-Riner-au-musee-Grevin.jpg&urls=http://www.eklecty-city.fr/wp-content/uploads/2014/11/The-Fast-and-The-Furious-2001-Movie-Picture-02.jpg";
-                                                curlRequest('http://api.skybiometry.com/fc/faces/detect.json?api_key=72ffa0b78e304ce78aefadcbae99ccaf&api_secret=3c5d9728327d40e18053d08b6ff37536&' + test, function (err) {
+                                                curlRequest('http://api.skybiometry.com/fc/faces/detect.json?api_key=72ffa0b78e304ce78aefadcbae99ccaf&api_secret=3c5d9728327d40e18053d08b6ff37536&' + test + '&attributes=all', function (err) {
                                                     if (!err) {
                                                         fs.unlink(newPath);
                                                         if (fsExtra.existsSync(unzipPath)) {
@@ -54,7 +55,9 @@ module.exports = {
                                                             });
                                                             fs.rmdir(unzipPath);
                                                         }
-                                                        var photo = JSON.parse(this.body);
+                                                        var response = this.body;
+                                                        var newReponse = response.replace(/null/gi, "\"\"");
+                                                        var photo = JSON.parse(newReponse);
                                                         var currentDay = new Day(user.currentData.day[user.currentData.day.length - 1]);
                                                         var currentData = new Data(currentDay.data[currentDay.data.length - 1]);
                                                         currentData.photos = photo["photos"];
@@ -62,6 +65,7 @@ module.exports = {
                                                         user.currentData.day[user.currentData.day.length - 1] = currentDay;
                                                         user.currentData.markModified('day');
                                                         user.currentData.save(function (err) {
+                                                            console.log("save");
                                                             if (!err) {
                                                                 res.status(200).json({
                                                                     user: {

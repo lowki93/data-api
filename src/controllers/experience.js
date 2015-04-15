@@ -26,7 +26,7 @@ module.exports = {
                                                 email: user.email,
                                                 token: user.token,
                                                 currentData: {
-                                                    id: experience.id,
+                                                    _id: experience.id,
                                                     private: experience.private
                                                 }
                                             }
