@@ -15,7 +15,7 @@ var schema = new Schema({
         type: Object
     },
     photos: {
-        type: Object
+        type: Array
     }
 });
 

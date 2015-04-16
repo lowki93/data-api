@@ -19,7 +19,8 @@ module.exports = {
         User.findById(req.params.id).populate('currentData').exec(function (err, user) {
             if (!err) {
                 if (user !== null) {
-                    curl('http://api.openweathermap.org/data/2.5/weather?lat=' + latitude + '&lon=' + longitude, function (err) {
+                    var curlRequest = curl.create();
+                    curlRequest('http://api.openweathermap.org/data/2.5/weather?lat=' + latitude + '&lon=' + longitude, function (err) {
                         if (!err) {
                             atmosphere = JSON.parse(this.body);
                             var data = new Data({
@@ -32,12 +33,13 @@ module.exports = {
                             }
                             var synchroTime = moment.unix(time).format(dateFormat);
                             if (user.currentData.day.length === 0 || synchroTime !== currentDate) {
-                                console.log('new Day : ' + currentDate);
+                                console.log('new Day : ' + synchroTime);
                                 var day = new Day({
                                     date: synchroTime,
                                     data: data
                                 });
                                 user.currentData.day = user.currentData.day.concat(day);
+                                user.currentData.markModified('day');
                             } else {
                                 console.log('update data for currentDay : ' + synchroTime);
                                 var currentExperience = new Experience(user.currentData);
