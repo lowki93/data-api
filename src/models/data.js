@@ -12,7 +12,7 @@ var schema = new Schema({
         type: Array
     },
     atmosphere: {
-        type: Object
+        type: Array
     },
     photos: {
         type: Array

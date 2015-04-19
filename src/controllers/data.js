@@ -82,5 +82,36 @@ module.exports = {
                 });
             }
         });
+    },
+    test: function (req, res) {
+        var geoloc = req.body.geolo;
+        var i = 0, arrayGeoloc = [];
+        for (i = 0; i < geoloc.length; i++) {
+            (function (i) {
+                setTimeout(function () {
+                    var curlRequest = curl.create();
+                    curlRequest('http://api.openweathermap.org/data/2.5/weather?lat=' + geoloc[i].latitude + '&lon=' + geoloc[i].longitude, function (err) {
+                        if (!err) {
+                            var time = geoloc[i].time;
+                            var atmosphere = JSON.parse(this.body);
+                            atmosphere['time'] = moment.unix(time).format('YYYY-MM-DD HH:mm:ss');
+                            arrayGeoloc.push(atmosphere);
+                            curlRequest.close();
+                            if (geoloc.length === arrayGeoloc.length) {
+                                console.log("arrayGeoloc ", arrayGeoloc);
+                                res.status(201).json({
+                                    error: 'good'
+                                });
+                                console.log('save');
+                            }
+
+                        } else {
+                            console.log("error");
+                        }
+                    });
+                }, 1000 * i);
+            }(i));
+        }
     }
+
 };
