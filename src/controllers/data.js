@@ -17,6 +17,7 @@ module.exports = {
         User.findById(req.params.id).populate('currentData').exec(function (err, user) {
             if (!err) {
                 if (user !== null) {
+                    console.log("start update");
                     var i = 0, arrayGeoloc = [];
                     for (i = 0; i < geoloc.length; i++) {
                         (function (i) {
@@ -27,12 +28,15 @@ module.exports = {
                                         var geolocTime = geoloc[i].time;
                                         var atmosphere = JSON.parse(this.body);
                                         atmosphere['time'] = moment.unix(geolocTime).format('YYYY-MM-DD HH:mm:ss');
+                                        atmosphere['distance'] = geoloc[i].distance;
                                         arrayGeoloc.push(atmosphere);
                                         curlRequest.close();
                                         if (geoloc.length === arrayGeoloc.length) {
                                             var data = new Data({
                                                 date: moment.unix(time).format('YYYY-MM-DD HH:mm:ss'),
-                                                atmosphere: arrayGeoloc
+                                                atmosphere: arrayGeoloc,
+                                                deplacement: req.body.pedometer
+
                                             });
                                             if (user.currentData.day.length !== 0) {
                                                 dayLength = user.currentData.day.length - 1;
