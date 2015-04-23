@@ -9,7 +9,7 @@ var schema = new Schema({
         type: Array
     },
     deplacement: {
-        type: Array
+        type: Object
     },
     atmosphere: {
         type: Array
