@@ -42,8 +42,8 @@ module.exports = {
                                                     }
                                                 }
                                                 var curlRequest = curl.create();
-                                                var test = "urls=http://cdn-parismatch.ladmedia.fr/var/news/storage/images/paris-match/people/sport/teddy-riner-au-musee-grevin-183480/2122502-1-fre-FR/Teddy-Riner-au-musee-Grevin.jpg&urls=http://www.eklecty-city.fr/wp-content/uploads/2014/11/The-Fast-and-The-Furious-2001-Movie-Picture-02.jpg";
-                                                curlRequest('http://api.skybiometry.com/fc/faces/detect.json?api_key=72ffa0b78e304ce78aefadcbae99ccaf&api_secret=3c5d9728327d40e18053d08b6ff37536&' + test + '&attributes=all', function (err) {
+                                                //var test = "urls=http://cdn-parismatch.ladmedia.fr/var/news/storage/images/paris-match/people/sport/teddy-riner-au-musee-grevin-183480/2122502-1-fre-FR/Teddy-Riner-au-musee-Grevin.jpg&urls=http://www.eklecty-city.fr/wp-content/uploads/2014/11/The-Fast-and-The-Furious-2001-Movie-Picture-02.jpg";
+                                                curlRequest('http://api.skybiometry.com/fc/faces/detect.json?api_key=72ffa0b78e304ce78aefadcbae99ccaf&api_secret=3c5d9728327d40e18053d08b6ff37536&' + url + '&attributes=all', function (err) {
                                                     if (!err) {
                                                         fs.unlink(newPath);
                                                         if (fsExtra.existsSync(unzipPath)) {
