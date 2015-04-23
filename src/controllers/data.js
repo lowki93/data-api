@@ -75,10 +75,12 @@ module.exports = {
                                         }
 
                                     } else {
-                                        console.log("error");
+                                        res.status(500).json({
+                                            error: err
+                                        });
                                     }
                                 });
-                            }, 1000 * i);
+                            }, 2000 * i);
                         }(i));
                     }
                 } else {

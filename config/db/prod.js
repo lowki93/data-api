@@ -1,5 +1,5 @@
 module.exports = {
-    url: 'user:password@url.mongohq.com:port',
+    url: 'localhost',
     port: '27017',
-    name: 'dbName'
+    name: 'data'
 };

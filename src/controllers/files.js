@@ -27,10 +27,12 @@ module.exports = {
                                         'error': err
                                     });
                                 } else {
-                                    fs.createReadStream(newPath).pipe(unzip.Extract({ path: unzipPath }).on('close', function () {
+                                    fs.createReadStream(newPath).pipe(unzip.Extract({ path: unzipPath }));
+                                    setTimeout(function () {
                                         fs.readdir(unzipPath, function (err, files) {
-                                            console.log(files);
                                             if (!err) {
+                                                console.log(files);
+                                                content = files;
                                                 var url = '';
                                                 var i;
                                                 for (i = 0; i < files.length; i++) {
@@ -58,9 +60,17 @@ module.exports = {
                                                         var response = this.body;
                                                         var newReponse = response.replace(/null/gi, "\"\"");
                                                         var photo = JSON.parse(newReponse);
+                                                        var photos = [];
+                                                        for (var i = 0; i < photo["photos"].length; i++){
+                                                            var persons = [];
+                                                            for (var j = 0; j < photo["photos"][i]["tags"].length; j++) {
+                                                                persons = persons.concat(photo["photos"][i]["tags"][j]["attributes"])
+                                                            }
+                                                            photos.push(persons);
+                                                        }
                                                         var currentDay = new Day(user.currentData.day[user.currentData.day.length - 1]);
                                                         var currentData = new Data(currentDay.data[currentDay.data.length - 1]);
-                                                        currentData.photos = photo["photos"];
+                                                        currentData.photos = photos;
                                                         currentDay.data[currentDay.data.length - 1] = currentData;
                                                         user.currentData.day[user.currentData.day.length - 1] = currentDay;
                                                         user.currentData.markModified('day');
@@ -89,7 +99,7 @@ module.exports = {
                                                 });
                                             }
                                         });
-                                    }));
+                                    }, 10000);
                                 }
                             });
                         } else {
