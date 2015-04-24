@@ -35,6 +35,7 @@ module.exports = {
                                         arrayGeoloc.push(atmosphere);
                                         curlRequest.close();
                                         if (geoloc.length === arrayGeoloc.length) {
+                                            console.log('time : ' + moment.unix(time).format('YYYY-MM-DD HH:mm:ss'));
                                             var data = new Data({
                                                 date: moment.unix(time).format('YYYY-MM-DD HH:mm:ss'),
                                                 atmosphere: arrayGeoloc,
