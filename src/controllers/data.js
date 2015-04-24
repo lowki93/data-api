@@ -29,6 +29,9 @@ module.exports = {
                                         var atmosphere = JSON.parse(this.body);
                                         atmosphere['time'] = moment.unix(geolocTime).format('YYYY-MM-DD HH:mm:ss');
                                         atmosphere['distance'] = geoloc[i].distance;
+                                        atmosphere.coord.lon = geoloc[i].longitude;
+                                        atmosphere.coord.lat = geoloc[i].latitude;
+                                        atmosphere['address'] = geoloc[i].address;
                                         arrayGeoloc.push(atmosphere);
                                         curlRequest.close();
                                         if (geoloc.length === arrayGeoloc.length) {
