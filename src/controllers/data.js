@@ -24,7 +24,8 @@ module.exports = {
                                 curlRequest('http://api.openweathermap.org/data/2.5/weather?lat=' + geoloc[i].latitude + '&lon=' + geoloc[i].longitude, function (err) {
                                     if (!err) {
                                         var geolocTime = geoloc[i].time;
-                                        var atmosphere = JSON.parse(this.body);
+                                        var atmosphere;
+                                        atmosphere = JSON.parse(this.body);
                                         atmosphere['time'] = geolocTime;
                                         atmosphere['distance'] = geoloc[i].distance;
                                         atmosphere.coord.lon = geoloc[i].longitude;
@@ -32,6 +33,7 @@ module.exports = {
                                         atmosphere['address'] = geoloc[i].address;
                                         arrayGeoloc.push(atmosphere);
                                         curlRequest.close();
+                                        curlRequest.perform();
                                         if (geoloc.length === arrayGeoloc.length) {
                                             console.log('time : ' + time);
                                             var data = new Data({
