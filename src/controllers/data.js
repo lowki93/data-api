@@ -18,6 +18,7 @@ module.exports = {
                     console.log("start update");
                     var i = 0, arrayGeoloc = [];
                     for (i = 0; i < geoloc.length; i++) {
+                        console.log("latitude : " + geoloc[i].latitude, 'longitude : ' + geoloc[i].longitude);
                         (function (i) {
                             setTimeout(function () {
                                 var curlRequest = curl.create();
