@@ -3,8 +3,6 @@ var User = require('../models/user');
 var Day = require('../models/day');
 var Experience = require('../models/experience');
 var Data = require('../models/data');
-var moment = require('moment');
-var dateFormat = "YYYY-MM-DD";
 
 module.exports = {
 
@@ -27,7 +25,7 @@ module.exports = {
                                     if (!err) {
                                         var geolocTime = geoloc[i].time;
                                         var atmosphere = JSON.parse(this.body);
-                                        atmosphere['time'] = moment.unix(geolocTime).format('YYYY-MM-DD HH:mm:ss');
+                                        atmosphere['time'] = geolocTime;
                                         atmosphere['distance'] = geoloc[i].distance;
                                         atmosphere.coord.lon = geoloc[i].longitude;
                                         atmosphere.coord.lat = geoloc[i].latitude;
@@ -35,9 +33,9 @@ module.exports = {
                                         arrayGeoloc.push(atmosphere);
                                         curlRequest.close();
                                         if (geoloc.length === arrayGeoloc.length) {
-                                            console.log('time : ' + moment.unix(time).format('YYYY-MM-DD HH:mm:ss'));
+                                            console.log('time : ' + time);
                                             var data = new Data({
-                                                date: moment.unix(time).format('YYYY-MM-DD HH:mm:ss'),
+                                                date: time,
                                                 atmosphere: arrayGeoloc,
                                                 deplacement: req.body.pedometer
 
@@ -46,7 +44,7 @@ module.exports = {
                                                 dayLength = user.currentData.day.length - 1;
                                                 currentDate = user.currentData.day[dayLength].date;
                                             }
-                                            var synchroTime = moment.unix(time).format(dateFormat);
+                                            var synchroTime = req.body.day;
                                             if (user.currentData.day.length === 0 || synchroTime !== currentDate) {
                                                 console.log('new Day : ' + synchroTime);
                                                 var day = new Day({
@@ -66,6 +64,7 @@ module.exports = {
                                             }
                                             user.currentData.save(function (err) {
                                                 if (!err) {
+                                                    console.log('save');
                                                     res.status(200).json({
                                                         user: {
                                                             id: user.id,
