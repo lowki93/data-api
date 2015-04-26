@@ -18,8 +18,10 @@ module.exports = {
                         fs.readFile(req.files.zip.path, function (err, data) {
                             if (!err) {
                                 var name = req.files.zip.name;
-                                var newPath = "./uploads/" + name;
-                                var unzipPath = "./uploads/" + name.split('.')[0];
+                                //var newPath = "./uploads/" + name;
+                                //var unzipPath = "./uploads/" + name.split('.')[0];
+                                var newPath = "/home/lowki/instances/data-api/uploads/" + name;
+                                var unzipPath = "/home/lowki/instances/data-api/uploads/" + name.split('.')[0];
                                 var token = req.params.id;
                                 var urlSite = req.get('host');
                                 fs.writeFile(newPath, data, function (err) {
