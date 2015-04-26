@@ -23,7 +23,6 @@ module.exports = {
                                 var curlRequest = curl.create();
                                 //'http://api.openweathermap.org/data/2.5/weather?lat=' + geoloc[i].latitude + '&lon=' + geoloc[i].longitude
                                 var timeRequest = geoloc[i].time.replace(" ", "T");
-                                console.log(timeRequest);
                                 var url = 'https://api.forecast.io/forecast/4baa73d4868c17a6a2f4e1289590a7e0/' + geoloc[i].latitude + ',' + geoloc[i].longitude + ',' + timeRequest;
                                 curlRequest(url, function (err) {
                                     if (!err) {
