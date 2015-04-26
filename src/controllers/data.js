@@ -18,23 +18,26 @@ module.exports = {
                     console.log("start update");
                     var i = 0, arrayGeoloc = [];
                     for (i = 0; i < geoloc.length; i++) {
-                        console.log("latitude : " + geoloc[i].latitude, 'longitude : ' + geoloc[i].longitude);
                         (function (i) {
                             setTimeout(function () {
                                 var curlRequest = curl.create();
-                                curlRequest('http://api.openweathermap.org/data/2.5/weather?lat=' + geoloc[i].latitude + '&lon=' + geoloc[i].longitude, function (err) {
+                                //'http://api.openweathermap.org/data/2.5/weather?lat=' + geoloc[i].latitude + '&lon=' + geoloc[i].longitude
+                                var timeRequest = geoloc[i].time.replace(" ", "T");
+                                console.log(timeRequest);
+                                var url = 'https://api.forecast.io/forecast/4baa73d4868c17a6a2f4e1289590a7e0/' + geoloc[i].latitude + ',' + geoloc[i].longitude + ',' + timeRequest;
+                                curlRequest(url, function (err) {
                                     if (!err) {
+                                        console.log("latitude : " + geoloc[i].latitude, 'longitude : ' + geoloc[i].longitude);
                                         var geolocTime = geoloc[i].time;
                                         var atmosphere;
-                                        atmosphere = JSON.parse(this.body);
+                                        atmosphere = JSON.parse(this.body).currently;
                                         atmosphere['time'] = geolocTime;
                                         atmosphere['distance'] = geoloc[i].distance;
-                                        atmosphere.coord.lon = geoloc[i].longitude;
-                                        atmosphere.coord.lat = geoloc[i].latitude;
+                                        atmosphere['longitude'] = geoloc[i].longitude;
+                                        atmosphere['latitude'] = geoloc[i].latitude;
                                         atmosphere['address'] = geoloc[i].address;
                                         arrayGeoloc.push(atmosphere);
                                         curlRequest.close();
-                                        curlRequest.perform();
                                         if (geoloc.length === arrayGeoloc.length) {
                                             console.log('time : ' + time);
                                             var data = new Data({
@@ -90,7 +93,7 @@ module.exports = {
                                         });
                                     }
                                 });
-                            }, 4000);
+                            }, 5000);
                         }(i));
                     }
                 } else {
