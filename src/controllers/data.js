@@ -3,6 +3,7 @@ var User = require('../models/user');
 var Day = require('../models/day');
 var Experience = require('../models/experience');
 var Data = require('../models/data');
+var apn = require('apn');
 
 module.exports = {
 
@@ -106,5 +107,25 @@ module.exports = {
                 });
             }
         });
+    },
+    test: function () {
+
+        var options = {
+            cert: __dirname + '/../../certificat/cert.pem',
+            key:  __dirname + '/../../certificat/key.pem',
+            production: (process.env.NODE_ENV === "prod")
+        };
+        var apnConnection = new apn.Connection(options);
+        var myDevice = new apn.Device('<75fedbaa f43d810d e308bf55 1862c25c d464de93 27b2a763 5aab8b38 0ad1fdc0>');
+        var note = new apn.Notification();
+
+        //note.expiry = Math.floor(Date.now() / 1000) + 3600; // Expires 1 hour from now.
+        note.badge = 3;
+        note.sound = "ping.aiff";
+        note.alert = "\uD83D\uDCE7 \u2709 You have a new message";
+        note.payload = {'messageFrom': 'Caroline'};
+
+        apnConnection.pushNotification(note, myDevice);
+
     }
 };
