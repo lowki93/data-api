@@ -12,6 +12,7 @@ module.exports = {
         var user = new User({
             email: req.body.email,
             password: req.body.password,
+            deviceToken: req.body.deviceToken,
             token: token
         });
 
@@ -21,6 +22,7 @@ module.exports = {
                     user: {
                         id: user.id,
                         email: user.email,
+                        deviceToken: user.deviceToken,
                         token: user.token
                     }
                 });
@@ -53,6 +55,7 @@ module.exports = {
                                     user: {
                                         id: user.id,
                                         email: user.email,
+                                        deviceToken: user.deviceToken,
                                         token: user.token,
                                         currentData: user.currentData
                                     }
@@ -134,5 +137,42 @@ module.exports = {
                 });
             }
         });
+    },
+
+    updateToken: function (req, res) {
+        console.log("test");
+        User.findById(req.params.id).populate('currentData').exec(function (err, user) {
+            /* istanbul ignore else */
+            if (!err) {
+                if (user !== null) {
+
+                    user.deviceToken = req.body.deviceToken;
+                    user.save(function (err) {
+                        if (!err) {
+                            res.status(200).json({
+                                user: {
+                                    id: user.id,
+                                    email: user.email,
+                                    deviceToken: user.deviceToken,
+                                    token: user.token,
+                                    currentData: user.currentData
+                                }
+                            });
+                        } else {
+                            res.status(500).json({
+                                err: err
+                            });
+                        }
+                    });
+                } else {
+                    res.status(404).json({
+                        error: 'user not find'
+                    });
+                }
+            } else {
+                res.status(500).json(err);
+            }
+        });
     }
+
 };

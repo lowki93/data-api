@@ -15,6 +15,7 @@ module.exports = function (app) {
     // Users
     router.post('/user/create', user.create);
     router.post('/user/login', user.login);
+    router.post('/user/update/:id/deviceToken', authController.isAuthenticated, user.updateToken);
     router.get('/user/profile/:id', authController.isAuthenticated, user.show);
     router.delete('/user/remove/:id', authController.isAuthenticated, user.remove);
 

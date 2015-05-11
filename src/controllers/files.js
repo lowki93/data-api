@@ -84,6 +84,7 @@ module.exports = {
                                                                         user: {
                                                                             id: user.id,
                                                                             email: user.email,
+                                                                            deviceToken: user.deviceToken,
                                                                             token: user.token,
                                                                             currentData: user.currentData
                                                                         }
@@ -116,6 +117,7 @@ module.exports = {
                             user: {
                                 id: user.id,
                                 email: user.email,
+                                deviceToken: user.deviceToken,
                                 token: user.token,
                                 currentData: user.currentData
                             }

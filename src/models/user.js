@@ -16,6 +16,9 @@ var schema = new Schema({
     token: {
         type: String
     },
+    deviceToken: {
+        type: String
+    },
     currentData: {
         type: Schema.Types.ObjectId,
         ref: 'Experience'
