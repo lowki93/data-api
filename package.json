@@ -45,7 +45,8 @@
     "unzip": "~0.1.11",
     "moment": "~2.10.0",
     "apn": "~1.7.3",
-    "q": "~2.0.3"
+    "q": "~2.0.3",
+    "node-crontab": "0.0.8"
   },
   "devDependencies": {
     "browserify": "^4.1.3",

@@ -17,6 +17,8 @@ var express = require('express');
 var mongoose = require('mongoose');
 var compression = require('compression');
 var bodyParser = require('body-parser');
+var crontab = require('node-crontab');
+var data = require('./controllers/data');
 
 // mongodb config ======================================================================
 
@@ -38,5 +40,11 @@ app.use("/media", express.static( __dirname + '/../uploads'));
 
 // routes ======================================================================
 require('./router.js')(app);
+
+// cron task ======================================================================
+//crontab.scheduleJob("*/1 * * * *", function () {  //This will call this function every 2 minutes
+//    console.log('cron task');
+//    data.test();
+//});
 
 exports.app = app;

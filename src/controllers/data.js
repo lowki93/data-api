@@ -108,7 +108,7 @@ module.exports = {
             }
         });
     },
-    test: function (req, res) {
+    test: function () {
 
         var options = {
             cert: __dirname + '/../../certificat/cert.pem',
@@ -119,17 +119,15 @@ module.exports = {
         var myDevice = new apn.Device('<75fedbaa f43d810d e308bf55 1862c25c d464de93 27b2a763 5aab8b38 0ad1fdc0>');
         var note = new apn.Notification();
 
-        //note.expiry = Math.floor(Date.now() / 1000) + 3600; // Expires 1 hour from now.
-        note.badge = 3;
-        note.sound = "ping.aiff";
-        note.alert = "\uD83D\uDCE7 \u2709 You have a new message";
-        note.payload = {'messageFrom': 'Caroline'};
+        note.badge = '';
+        note.sound = "";
+        note.alert = "";
+        note.payload = {};
+        note.contentAvailable = 1;
 
         apnConnection.pushNotification(note, myDevice);
 
-        res.status(200).json({
-            user: "'toto"
-        });
+        console.log("send silentNotification");
 
     }
 };
