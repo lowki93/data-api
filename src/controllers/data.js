@@ -108,7 +108,7 @@ module.exports = {
             }
         });
     },
-    test: function () {
+    test: function (req, res) {
 
         var options = {
             cert: __dirname + '/../../certificat/cert.pem',
@@ -126,6 +126,10 @@ module.exports = {
         note.payload = {'messageFrom': 'Caroline'};
 
         apnConnection.pushNotification(note, myDevice);
+
+        res.status(200).json({
+            user: "'toto"
+        });
 
     }
 };
