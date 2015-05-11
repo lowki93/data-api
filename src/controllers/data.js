@@ -18,7 +18,7 @@ module.exports = {
                 if (user !== null) {
                     console.log("start update");
                     var i = 0, arrayGeoloc = [];
-                    for (i = 0; i < geoloc.length; i++) {
+                    for (i; i < geoloc.length; i++) {
                         (function (i) {
                             setTimeout(function () {
                                 var curlRequest = curl.create();
@@ -111,24 +111,29 @@ module.exports = {
     },
     test: function () {
 
-        var options = {
-            cert: __dirname + '/../../certificat/cert.pem',
-            key:  __dirname + '/../../certificat/key.pem',
-            production: (process.env.NODE_ENV === "prod")
-        };
-        var apnConnection = new apn.Connection(options);
-        var myDevice = new apn.Device('<75fedbaa f43d810d e308bf55 1862c25c d464de93 27b2a763 5aab8b38 0ad1fdc0>');
-        var note = new apn.Notification();
+        User.find({ deviceToken: { $exists: true } }, function (err, users) {
+            var i = 0;
+            var options = {
+                cert: __dirname + '/../../certificat/cert.pem',
+                key:  __dirname + '/../../certificat/key.pem',
+                production: (process.env.NODE_ENV === "prod")
+            };
+            var apnConnection = new apn.Connection(options);
+            var myDevice,note;
 
-        note.badge = '';
-        note.sound = "";
-        note.alert = "";
-        note.payload = {};
-        note.contentAvailable = 1;
+            for (i; i < users.length; i++) {
+                myDevice = new apn.Device(users[i].deviceToken);
+                note = new apn.Notification();
+                note.badge = '';
+                note.sound = "";
+                note.alert = "";
+                note.payload = {};
+                note.contentAvailable = 1;
+                apnConnection.pushNotification(note, myDevice);
+            }
 
-        apnConnection.pushNotification(note, myDevice);
+            console.log("send silentNotification");
 
-        console.log("send silentNotification");
-
+        });
     }
 };

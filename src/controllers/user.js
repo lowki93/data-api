@@ -140,7 +140,6 @@ module.exports = {
     },
 
     updateToken: function (req, res) {
-        console.log("test");
         User.findById(req.params.id).populate('currentData').exec(function (err, user) {
             /* istanbul ignore else */
             if (!err) {
