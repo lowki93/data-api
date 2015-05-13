@@ -11,9 +11,6 @@ process.env.PWD = process.cwd();
 var env = process.env.NODE_ENV || 'dev';
 
 var bootstrap = require('./middlewares/bootstrap');
-//var access = require('./middlewares/access');
-//var methodOverride = require('method-override');
-
 var app = require('express')();
 var express = require('express');
 var mongoose = require('mongoose');
@@ -31,22 +28,15 @@ mongoose.connect('mongodb://' + db.url + '/' + db.name);
 // express config ======================================================================
 
 app.use(bootstrap());
-//app.use(methodOverride());
-//app.use(access());
 app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: false
 }));
-app.all('/*', function(req, res, next) {
+app.all('/*', function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
-    //res.header("Access-Control-Allow-Headers", "X-Requested-With");
     next();
 });
-//app.options('/', function (req, res) {
-//    res.header("Access-Control-Allow-Origin", "*");
-//});
-
 
 app.use("/media", express.static( __dirname + '/../uploads'));
 
@@ -54,7 +44,7 @@ app.use("/media", express.static( __dirname + '/../uploads'));
 require('./router.js')(app);
 
 // cron task ======================================================================
-//crontab.scheduleJob("*/1 * * * *", function () {  //This will call this function every 2 minutes
+//crontab.scheduleJob("*/60 * * * *", function () {  //This will call this function every 60 minutes
 //    console.log('cron task');
 //    data.test();
 //});
