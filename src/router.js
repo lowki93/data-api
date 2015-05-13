@@ -24,7 +24,7 @@ module.exports = function (app) {
 
     // save Data
     router.post('/data/:id/save', authController.isAuthenticated, data.saveData);
-    router.post('/data/test', data.test);
+    router.post('/data/test', data.lauchNotification);
 
     // Files
     router.post('/files/uploads/:id', authController.isAuthenticated, multipartMiddleware, files.upload);

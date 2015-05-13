@@ -4,6 +4,9 @@ var bcrypt = require('bcrypt-nodejs');
 var Experience = require('../models/experience');
 
 var schema = new Schema({
+    username: {
+        type: String
+    },
     email: {
         type: String,
         index: { unique: true },

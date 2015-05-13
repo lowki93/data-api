@@ -46,7 +46,7 @@ require('./router.js')(app);
 // cron task ======================================================================
 //crontab.scheduleJob("*/60 * * * *", function () {  //This will call this function every 60 minutes
 //    console.log('cron task');
-//    data.test();
+//    data.lauchNotification();
 //});
 
 exports.app = app;

@@ -11,6 +11,7 @@ describe("USER API", function () {
             request(app)
                 .post('/api/user/create')
                 .send({
+                    username: 'username',
                     email: 'email@gmail.com',
                     password: 'password'
                 })
@@ -29,6 +30,7 @@ describe("USER API", function () {
             request(app)
                 .post('/api/user/create')
                 .send({
+                    username: 'username',
                     email: 'email@gmail.com',
                     password: 'password'
                 })

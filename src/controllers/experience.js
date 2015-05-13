@@ -23,6 +23,7 @@ module.exports = {
                                         res.status(201).json({
                                             user: {
                                                 id: user.id,
+                                                username: user.username,
                                                 email: user.email,
                                                 deviceToken: user.deviceToken,
                                                 token: user.token,

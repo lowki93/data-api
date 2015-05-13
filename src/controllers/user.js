@@ -10,9 +10,10 @@ module.exports = {
         var token = md5.update((req.param('email') + salt)).digest('hex');
 
         var user = new User({
+            username: req.body.username,
             email: req.body.email,
             password: req.body.password,
-            deviceToken: req.body.deviceToken,
+            //deviceToken: req.body.deviceToken,
             token: token
         });
 
@@ -21,13 +22,13 @@ module.exports = {
                 res.status(201).json({
                     user: {
                         id: user.id,
+                        username: user.username,
                         email: user.email,
-                        deviceToken: user.deviceToken,
+                        //deviceToken: user.deviceToken,
                         token: user.token
                     }
                 });
             } else {
-                console.log('error');
                 /* istanbul ignore else */
                 if (err.code === 11000) {
                     res.status(409).json({
@@ -54,6 +55,7 @@ module.exports = {
                                 res.status(200).json({
                                     user: {
                                         id: user.id,
+                                        username: user.username,
                                         email: user.email,
                                         deviceToken: user.deviceToken,
                                         token: user.token,
@@ -151,6 +153,7 @@ module.exports = {
                             res.status(200).json({
                                 user: {
                                     id: user.id,
+                                    username: user.username,
                                     email: user.email,
                                     deviceToken: user.deviceToken,
                                     token: user.token,

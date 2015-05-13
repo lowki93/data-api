@@ -69,7 +69,7 @@ module.exports = {
             }
         });
     },
-    test: function () {
+    lauchNotification: function () {
 
         User.find({ deviceToken: { $exists: true } }, function (err, users) {
             var i = 0;
@@ -131,6 +131,7 @@ module.exports = {
                 res.status(200).json({
                     user: {
                         id: user.id,
+                        username: user.username,
                         email: user.email,
                         deviceToken: user.deviceToken,
                         token: user.token,
