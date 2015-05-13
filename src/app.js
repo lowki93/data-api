@@ -12,7 +12,7 @@ var env = process.env.NODE_ENV || 'dev';
 
 var bootstrap = require('./middlewares/bootstrap');
 //var access = require('./middlewares/access');
-var methodOverride = require('method-override');
+//var methodOverride = require('method-override');
 
 var app = require('express')();
 var express = require('express');
@@ -31,13 +31,18 @@ mongoose.connect('mongodb://' + db.url + '/' + db.name);
 // express config ======================================================================
 
 app.use(bootstrap());
-app.use(methodOverride());
+//app.use(methodOverride());
 //app.use(access());
 app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: false
 }));
+app.all('/*', function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    //res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    next();
+});
 //app.options('/', function (req, res) {
 //    res.header("Access-Control-Allow-Origin", "*");
 //});
