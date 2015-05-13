@@ -11,7 +11,7 @@ process.env.PWD = process.cwd();
 var env = process.env.NODE_ENV || 'dev';
 
 var bootstrap = require('./middlewares/bootstrap');
-var access = require('./middlewares/access');
+//var access = require('./middlewares/access');
 
 var app = require('express')();
 var express = require('express');
@@ -30,7 +30,7 @@ mongoose.connect('mongodb://' + db.url + '/' + db.name);
 // express config ======================================================================
 
 app.use(bootstrap());
-app.use(access());
+//app.use(access());
 app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
