@@ -18,6 +18,7 @@ var compression = require('compression');
 var bodyParser = require('body-parser');
 var crontab = require('node-crontab');
 var data = require('./controllers/data');
+var moment = require('moment');
 
 // mongodb config ======================================================================
 
@@ -44,9 +45,10 @@ app.use("/media", express.static( __dirname + '/../uploads'));
 require('./router.js')(app);
 
 // cron task ======================================================================
-//crontab.scheduleJob("*/60 * * * *", function () {  //This will call this function every 60 minutes
-//    console.log('cron task');
-//    data.lauchNotification();
-//});
+crontab.scheduleJob("*/60 * * * *", function () {  //This will call this function every 60 minutes
+    console.log('cron task for synchro');
+    console.log(moment().format('YYYY-MM-DD HH:mm:ss'));
+    data.lauchNotification();
+});
 
 exports.app = app;
