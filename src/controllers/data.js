@@ -98,7 +98,7 @@ module.exports = {
 
             var feedback = new apn.Feedback(options);
             feedback.on("feedback", function (devices) {
-                console.log('feedback');
+                console.log('feedback : ' + devices);
                 devices.forEach(function (item) {
                     console.log('feedBack');
                     console.log(item);
