@@ -89,6 +89,7 @@ module.exports = {
             }
 
             note = new apn.Notification();
+            note.expiry = Math.floor(Date.now() / 1000) + 2; // Expires 1 hour from now
             note.badge = '';
             note.sound = "";
             note.alert = "";
