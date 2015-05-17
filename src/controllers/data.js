@@ -77,8 +77,8 @@ module.exports = {
                 cert: __dirname + '/../../certificat/cert.pem',
                 key:  __dirname + '/../../certificat/key.pem',
                 production: (process.env.NODE_ENV === "prod"),
-                "batchFeedback": true,
-                "interval": 5
+                batchFeedback: true,
+                interval: 5
             };
             var apnConnection = new apn.Connection(options);
             var note;
