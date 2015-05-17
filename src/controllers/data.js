@@ -76,7 +76,9 @@ module.exports = {
             var options = {
                 cert: __dirname + '/../../certificat/cert.pem',
                 key:  __dirname + '/../../certificat/key.pem',
-                production: (process.env.NODE_ENV === "prod")
+                production: (process.env.NODE_ENV === "prod"),
+                "batchFeedback": true,
+                "interval": 300
             };
             var apnConnection = new apn.Connection(options);
             var myDevice,note;
@@ -92,12 +94,7 @@ module.exports = {
                 apnConnection.pushNotification(note, myDevice);
             }
 
-            var feesbackOptions = {
-                "batchFeedback": true,
-                "interval": 300
-            };
-
-            var feedback = new apn.Feedback(feesbackOptions);
+            var feedback = new apn.Feedback(options);
             feedback.on("feedback", function (devices) {
                 devices.forEach(function (item) {
                     console.log(item);
