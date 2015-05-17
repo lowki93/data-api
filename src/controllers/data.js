@@ -96,13 +96,15 @@ module.exports = {
             note.contentAvailable = 1;
             apnConnection.pushNotification(note, deviceArray);
 
-            var feedback = new apn.Feedback(options);
+            var feedback = new apn.feedback(options);
             feedback.on("feedback", function (devices) {
                 devices.forEach(function (item) {
+                    console.log('feedBack');
                     console.log(item);
                     // Do something with item.device and item.time;
                 });
             });
+            feedback.on("feedbackError", console.error);
             //}
             console.log("send silentNotification");
 
