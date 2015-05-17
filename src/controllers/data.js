@@ -81,26 +81,29 @@ module.exports = {
                 "interval": 5
             };
             var apnConnection = new apn.Connection(options);
-            var myDevice,note;
+            var note;
+            var deviceArray = [];
 
             for (i; i < users.length; i++) {
-                myDevice = new apn.Device(users[i].deviceToken);
-                note = new apn.Notification();
-                note.badge = '';
-                note.sound = "";
-                note.alert = "";
-                note.payload = {};
-                note.contentAvailable = 1;
-                apnConnection.pushNotification(note, myDevice);
-
-                var feedback = new apn.Feedback(options);
-                feedback.on("feedback", function (devices) {
-                    devices.forEach(function (item) {
-                        console.log(item);
-                        // Do something with item.device and item.time;
-                    });
-                });
+                deviceArray.push(users[i].deviceToken);
             }
+            //    myDevice = new apn.Device(users[i].deviceToken);
+            note = new apn.Notification();
+            note.badge = '';
+            note.sound = "";
+            note.alert = "";
+            note.payload = {};
+            note.contentAvailable = 1;
+            apnConnection.pushNotification(note, deviceArray);
+
+            var feedback = new apn.Feedback(options);
+            feedback.on("feedback", function (devices) {
+                devices.forEach(function (item) {
+                    console.log(item);
+                    // Do something with item.device and item.time;
+                });
+            });
+            //}
             console.log("send silentNotification");
 
         });
