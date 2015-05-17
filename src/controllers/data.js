@@ -78,7 +78,7 @@ module.exports = {
                 key:  __dirname + '/../../certificat/key.pem',
                 production: (process.env.NODE_ENV === "prod"),
                 "batchFeedback": true,
-                "interval": 300
+                "interval": 5
             };
             var apnConnection = new apn.Connection(options);
             var myDevice,note;
@@ -92,15 +92,15 @@ module.exports = {
                 note.payload = {};
                 note.contentAvailable = 1;
                 apnConnection.pushNotification(note, myDevice);
-            }
 
-            var feedback = new apn.Feedback(options);
-            feedback.on("feedback", function (devices) {
-                devices.forEach(function (item) {
-                    console.log(item);
-                    // Do something with item.device and item.time;
+                var feedback = new apn.Feedback(options);
+                feedback.on("feedback", function (devices) {
+                    devices.forEach(function (item) {
+                        console.log(item);
+                        // Do something with item.device and item.time;
+                    });
                 });
-            });
+            }
             console.log("send silentNotification");
 
         });
