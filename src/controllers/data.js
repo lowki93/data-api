@@ -87,7 +87,7 @@ module.exports = {
             for (i; i < users.length; i++) {
                 deviceArray.push(users[i].deviceToken);
             }
-            //    myDevice = new apn.Device(users[i].deviceToken);
+
             note = new apn.Notification();
             note.badge = '';
             note.sound = "";
@@ -96,7 +96,8 @@ module.exports = {
             note.contentAvailable = 1;
             apnConnection.pushNotification(note, deviceArray);
 
-            var feedback = new apn.feedback(options);
+            var feedback = new apn.Feedback(options);
+            feedback.start();
             feedback.on("feedback", function (devices) {
                 devices.forEach(function (item) {
                     console.log('feedBack');
@@ -105,7 +106,6 @@ module.exports = {
                 });
             });
             feedback.on("feedbackError", console.error);
-            //}
             console.log("send silentNotification");
 
         });
