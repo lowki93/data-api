@@ -91,6 +91,19 @@ module.exports = {
                 note.contentAvailable = 1;
                 apnConnection.pushNotification(note, myDevice);
             }
+
+            var feesbackOptions = {
+                "batchFeedback": true,
+                "interval": 300
+            };
+
+            var feedback = new apn.Feedback(feesbackOptions);
+            feedback.on("feedback", function (devices) {
+                devices.forEach(function (item) {
+                    console.log(item);
+                    // Do something with item.device and item.time;
+                });
+            });
             console.log("send silentNotification");
 
         });
