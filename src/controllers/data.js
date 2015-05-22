@@ -69,36 +69,50 @@ module.exports = {
             }
         });
     },
-    lauchNotification: function () {
+    lauchNotification: function (req, res) {
 
-        User.find({ deviceToken: { $exists: true } }, function (err, users) {
-            var i = 0;
-            var options = {
-                cert: __dirname + '/../../certificat/cert.pem',
-                key:  __dirname + '/../../certificat/key.pem',
-                production: (process.env.NODE_ENV === "prod"),
-                batchFeedback: true,
-                interval: 5
-            };
-            var apnConnection = new apn.Connection(options);
-            var note;
-            var deviceArray = [];
+        User.find({ deviceToken: { $exists: true }, isActive: true }, function (err, users) {
+            if (!err) {
+                if (users) {
+                    var i = 0;
+                    var options = {
+                        cert: __dirname + '/../../certificat/cert.pem',
+                        key:  __dirname + '/../../certificat/key.pem',
+                        production: (process.env.NODE_ENV === "prod"),
+                        batchFeedback: true,
+                        interval: 5
+                    };
+                    var apnConnection = new apn.Connection(options);
+                    var note;
+                    var deviceArray = [];
 
-            for (i; i < users.length; i++) {
-                deviceArray.push(users[i].deviceToken);
+                    for (i; i < users.length; i++) {
+                        console.log("notificication for : " + users[i].email);
+                        deviceArray.push(users[i].deviceToken);
+                    }
+
+                    note = new apn.Notification();
+                    note.expiry = Math.floor(Date.now() / 1000) + 2; // Expires 1 hour from now
+                    note.badge = '';
+                    note.sound = "";
+                    note.alert = "";
+                    note.payload = {};
+                    note.contentAvailable = 1;
+                    apnConnection.pushNotification(note, deviceArray);
+
+                    res.status(200).json({
+                        users: users
+                    });
+                } else {
+                    res.status(500).json({
+                        error: err
+                    });
+                }
+            } else {
+                res.status(500).json({
+                    error: err
+                });
             }
-
-            note = new apn.Notification();
-            note.expiry = Math.floor(Date.now() / 1000) + 2; // Expires 1 hour from now
-            note.badge = '';
-            note.sound = "";
-            note.alert = "";
-            note.payload = {};
-            note.contentAvailable = 1;
-            apnConnection.pushNotification(note, deviceArray);
-
-            console.log("send silentNotification");
-
         });
     },
     firstGeoloc: function(req, res) {
