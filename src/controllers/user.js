@@ -47,7 +47,6 @@ module.exports = {
                         /* istanbul ignore else */
                         if (!err) {
                             if (isMatch) {
-                                console.log('user login');
                                 delete user.password;
                                 res.status(200).json({
                                     user: user
