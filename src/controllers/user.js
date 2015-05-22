@@ -13,20 +13,15 @@ module.exports = {
             username: req.body.username,
             email: req.body.email,
             password: req.body.password,
-            //deviceToken: req.body.deviceToken,
             token: token
         });
 
         user.save(function (err) {
             if (!err) {
+                console.log('user create');
+                delete user.password;
                 res.status(201).json({
-                    user: {
-                        id: user.id,
-                        username: user.username,
-                        email: user.email,
-                        //deviceToken: user.deviceToken,
-                        token: user.token
-                    }
+                    user: user
                 });
             } else {
                 /* istanbul ignore else */
@@ -52,15 +47,10 @@ module.exports = {
                         /* istanbul ignore else */
                         if (!err) {
                             if (isMatch) {
+                                console.log('user login');
+                                delete user.password;
                                 res.status(200).json({
-                                    user: {
-                                        id: user.id,
-                                        username: user.username,
-                                        email: user.email,
-                                        deviceToken: user.deviceToken,
-                                        token: user.token,
-                                        currentData: user.currentData
-                                    }
+                                    user: user
                                 });
                             } else {
                                 res.status(409).json({
@@ -150,15 +140,10 @@ module.exports = {
                     user.deviceToken = req.body.deviceToken;
                     user.save(function (err) {
                         if (!err) {
+                            console.log('user update tokenDevice');
+                            delete user.password;
                             res.status(200).json({
-                                user: {
-                                    id: user.id,
-                                    username: user.username,
-                                    email: user.email,
-                                    deviceToken: user.deviceToken,
-                                    token: user.token,
-                                    currentData: user.currentData
-                                }
+                                user: user
                             });
                         } else {
                             res.status(500).json({

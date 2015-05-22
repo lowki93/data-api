@@ -79,14 +79,7 @@ module.exports = {
                                                                 console.log("save");
                                                                 if (!err) {
                                                                     res.status(200).json({
-                                                                        user: {
-                                                                            id: user.id,
-                                                                            username: user.username,
-                                                                            email: user.email,
-                                                                            deviceToken: user.deviceToken,
-                                                                            token: user.token,
-                                                                            currentData: user.currentData
-                                                                        }
+                                                                        user: user
                                                                     });
                                                                 } else {
                                                                     res.status(500).json({
@@ -118,6 +111,7 @@ module.exports = {
                                 username: user.username,
                                 email: user.email,
                                 deviceToken: user.deviceToken,
+                                isActive: user.isActive,
                                 token: user.token,
                                 currentData: user.currentData
                             }

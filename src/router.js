@@ -21,8 +21,10 @@ module.exports = function (app) {
 
     // Experience
     router.get('/experience/:id/create', authController.isAuthenticated, experience.create);
+    router.post('/experience/:id/update-date', authController.isAuthenticated, experience.updateDate);
 
     // save Data
+    router.post('/data/:id/first-geoloc', authController.isAuthenticated, data.firstGeoloc);
     router.post('/data/:id/save', authController.isAuthenticated, data.saveData);
     router.post('/data/test', data.lauchNotification);
 

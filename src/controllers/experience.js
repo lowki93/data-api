@@ -20,10 +20,13 @@ module.exports = {
                                 user.currentData = experience;
                                 user.save(function (err) {
                                     if (!err) {
+                                        delete user.password;
                                         res.status(201).json({
+                                            //user
                                             user: {
-                                                id: user.id,
+                                                _id: user.id,
                                                 username: user.username,
+                                                isActive: user.isActive,
                                                 email: user.email,
                                                 deviceToken: user.deviceToken,
                                                 token: user.token,
@@ -50,6 +53,49 @@ module.exports = {
                             error: 'Experience Already Existed'
                         });
                     }
+                } else {
+                    res.status(404).json({
+                        error: 'user undefined'
+                    });
+                }
+            } else {
+                res.status(500).json({
+                    error: err
+                });
+            }
+        });
+    },
+    updateDate: function (req, res) {
+
+        User.findById(req.params.id).populate('currentData').exec(function (err, user) {
+            if (!err) {
+                if (user !== null) {
+                    console.log(req.body);
+                    user.currentData.startDate = req.body.startDate;
+                    user.currentData.endDate = req.body.endDate;
+                    user.currentData.save(function (err) {
+                        if (!err) {
+                            user.isActive = true;
+                            user.save(function (err) {
+                                if (!err) {
+                                    console.log('save');
+                                    res.status(200).json({
+                                        user: user
+                                    });
+                                } else {
+                                    console.log(err);
+                                    res.status(500).json({
+                                        error: err
+                                    });
+                                }
+                            });
+                        } else {
+                            console.log(err);
+                            res.status(500).json({
+                                error: err
+                            });
+                        }
+                    });
                 } else {
                     res.status(404).json({
                         error: 'user undefined'

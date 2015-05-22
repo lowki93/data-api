@@ -101,6 +101,53 @@ module.exports = {
 
         });
     },
+    firstGeoloc: function(req, res) {
+        var geoloc = req.body.geoloc;
+        var time = req.body.time;
+        var currentDate = null;
+        var dayLength;
+
+        User.findById(req.params.id).populate('currentData').exec(function (err, user) {
+            if (!err) {
+                if (user !== null) {
+                    console.log("start first geoloc");
+                    var arrayGeoloc = [];
+                    var curlRequest = curl.create();
+                    //'http://api.openweathermap.org/data/2.5/weather?lat=' + geoloc[i].latitude + '&lon=' + geoloc[i].longitude
+                    var timeRequest = geoloc.time.replace(" ", "T");
+                    var url = 'https://api.forecast.io/forecast/4baa73d4868c17a6a2f4e1289590a7e0/' + geoloc.latitude + ',' + geoloc.longitude + ',' + timeRequest;
+                    curlRequest(url, function (err) {
+                        if (!err) {
+                            var geolocTime = geoloc.time;
+                            var atmosphere;
+                            atmosphere = JSON.parse(this.body).currently;
+                            atmosphere['time'] = geolocTime;
+                            atmosphere['distance'] = geoloc.distance;
+                            atmosphere['longitude'] = geoloc.longitude;
+                            atmosphere['latitude'] = geoloc.latitude;
+                            atmosphere['address'] = geoloc.address;
+                            arrayGeoloc.push(atmosphere);
+                            curlRequest.close();
+                            module.exports.updateData(req, res, time, user, dayLength, currentDate, arrayGeoloc);
+
+                        } else {
+                            res.status(500).json({
+                                error: err
+                            });
+                        }
+                    });
+                } else {
+                    res.status(404).json({
+                        error: 'user undefined'
+                    });
+                }
+            } else {
+                res.status(500).json({
+                    error: err
+                });
+            }
+        });
+    },
     updateData: function (req, res, time, user, dayLength, currentDate, arrayGeoloc) {
         console.log('time : ' + time);
         var data = new Data({
@@ -135,14 +182,7 @@ module.exports = {
             if (!err) {
                 console.log('save');
                 res.status(200).json({
-                    user: {
-                        id: user.id,
-                        username: user.username,
-                        email: user.email,
-                        deviceToken: user.deviceToken,
-                        token: user.token,
-                        currentData: user.currentData
-                    }
+                    user: user
                 });
             } else {
                 res.status(500).json({

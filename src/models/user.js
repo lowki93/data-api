@@ -16,6 +16,10 @@ var schema = new Schema({
         type: String,
         required: true
     },
+    isActive: {
+        type: Boolean,
+        default: false
+    },
     token: {
         type: String
     },
