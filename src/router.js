@@ -25,6 +25,7 @@ module.exports = function (app) {
 
     // save Data
     router.post('/data/:id/first-geoloc', authController.isAuthenticated, data.firstGeoloc);
+    router.post('/data/:id/pedometer', authController.isAuthenticated, data.pedometer);
     router.post('/data/:id/save', authController.isAuthenticated, data.saveData);
     router.post('/data/test', data.lauchNotification);
 
