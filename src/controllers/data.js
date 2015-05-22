@@ -69,7 +69,7 @@ module.exports = {
             }
         });
     },
-    lauchNotification: function (req, res) {
+    lauchNotification: function () {
 
         User.find({ deviceToken: { $exists: true }, isActive: true }, function (err, users) {
             if (!err) {
@@ -99,23 +99,11 @@ module.exports = {
                     note.payload = {};
                     note.contentAvailable = 1;
                     apnConnection.pushNotification(note, deviceArray);
-
-                    res.status(200).json({
-                        users: users
-                    });
-                } else {
-                    res.status(500).json({
-                        error: err
-                    });
                 }
-            } else {
-                res.status(500).json({
-                    error: err
-                });
             }
         });
     },
-    firstGeoloc: function(req, res) {
+    firstGeoloc: function (req, res) {
         var geoloc = req.body.geoloc;
         var time = req.body.time;
         var currentDate = null;
