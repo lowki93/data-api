@@ -10,6 +10,17 @@
 
 var app = require('./src/app').app;
 var port = Number(process.env.PORT || 5000);
+var WebSocketServer = require('ws').Server,
+    wss = new WebSocketServer({ port: 9090 });
+
+wss.on('connection', function connection(ws) {
+    ws.on('message', function (data) {
+        var currentFile = JSON.parse(data);
+        console.log(currentFile);
+    });
+
+    ws.send({type: "toto", test: 'toto'});
+});
 
 app.listen(port);
 
