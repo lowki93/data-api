@@ -21,7 +21,8 @@ var schema = new Schema({
         default: false
     },
     token: {
-        type: String
+        type: String,
+        index: { unique: true }
     },
     deviceToken: {
         type: String

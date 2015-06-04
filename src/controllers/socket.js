@@ -7,11 +7,12 @@ module.exports = {
     createSocket: function () {
 
         wss.on('connection', function connection(ws) {
-            console.log("connection");
+
             ws.on('message', function (data) {
-                console.log(socketArray);
+                var current = null;
                 var currentFile = JSON.parse(data);
                 if (currentFile.type === 'desktop') {
+                    console.log("desktop connect : " + currentFile.token);
                     var userArray = {
                         token: currentFile.token,
                         connected: {
@@ -20,34 +21,68 @@ module.exports = {
                         },
                         socket: ws
                     };
-                    console.log(userArray);
+
                     socketArray.push(userArray);
                 }
                 if (currentFile.type === 'mobile') {
 
-                    var current = null;
-                    var i;
+                    console.log("mobile connect : " + currentFile.token);
+                    current = module.exports.getCurrentUser(currentFile.token);
 
-                    for (i = 0; i < socketArray.length; i++) {
-                        console.log(socketArray[i], currentFile.token);
-                        if (socketArray[i].token == currentFile.token) {
-                            current = socketArray[i];
-                        }
+                    if (current !== null) {
+                        module.exports.sendPairingDone(current.socket);
+                        module.exports.sendPairingDone(ws);
                     }
-                    console.log(current);
-                    if (current != null) {
-                        console.log(current.socket);
-                        current.socket.send("toto");
-                    }
-
-                    console.log(userArray);
-                    //socketArray.push(userArray);
+                    //module.exports.sendPairingDone(ws);
                 }
-                console.log(currentFile.type);
+                if (currentFile.activation === "geolocation") {
+
+                    current = module.exports.getCurrentUser(currentFile.token);
+
+                    if (current !== null) {
+                        console.log('send for ' + currentFile.activation);
+                        module.exports.sendDataForPairing(current.socket, currentFile.data, currentFile.activation);
+                    }
+                }
+                if (currentFile.activation === "pedometer") {
+
+                    current = module.exports.getCurrentUser(currentFile.token);
+
+                    if (current !== null) {
+                        console.log('send for ' + currentFile.activation);
+                        module.exports.sendDataForPairing(current.socket, currentFile.data, currentFile.activation);
+                    }
+                }
+                if (currentFile.activation === "photos") {
+
+                    current = module.exports.getCurrentUser(currentFile.token);
+
+                    if (current !== null) {
+                        console.log('send for ' + currentFile.activation);
+                        module.exports.sendDataForPairing(current.socket, currentFile.data, currentFile.activation);
+                    }
+                }
             });
 
-            //ws.send({type: "toto", test: 'toto'});
         });
+    },
+    sendPairingDone: function (webSocket) {
 
+        var string = JSON.stringify({pairing: true});
+        webSocket.send(string);
+    },
+    sendDataForPairing: function (webSocket, data, type) {
+        var string = JSON.stringify({activation: type, data: data});
+        webSocket.send(string);
+    },
+    getCurrentUser: function (token) {
+        var current = null,
+            i;
+        for (i = 0; i < socketArray.length; i++) {
+            if (socketArray[i].token === token) {
+                current = socketArray[i];
+            }
+        }
+        return current;
     }
 };

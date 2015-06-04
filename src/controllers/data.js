@@ -120,7 +120,7 @@ module.exports = {
                     var url = 'https://api.forecast.io/forecast/4baa73d4868c17a6a2f4e1289590a7e0/' + geoloc.latitude + ',' + geoloc.longitude + ',' + timeRequest;
                     curlRequest(url, function (err) {
                         if (!err) {
-                            var geolocTime = geoloc.time;
+                            var geolocTime = timeRequest;
                             var atmosphere;
                             atmosphere = JSON.parse(this.body).currently;
                             atmosphere['time'] = geolocTime;
