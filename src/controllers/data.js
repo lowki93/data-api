@@ -4,6 +4,7 @@ var Day = require('../models/day');
 var Experience = require('../models/experience');
 var Data = require('../models/data');
 var apn = require('apn');
+var moment = require('moment');
 
 module.exports = {
 
@@ -71,7 +72,7 @@ module.exports = {
     },
     lauchNotification: function () {
 
-        User.find({ deviceToken: { $exists: true }, isActive: true }, function (err, users) {
+        User.find({ deviceToken: { $exists: true }, isActive: true }).populate('currentData').exec(function (err, users) {
             if (!err) {
                 if (users) {
                     var i = 0;
@@ -87,8 +88,10 @@ module.exports = {
                     var deviceArray = [];
 
                     for (i; i < users.length; i++) {
-                        console.log("notificication for : " + users[i].email);
-                        deviceArray.push(users[i].deviceToken);
+                        if (moment(users[i].currentData.endDate, 'YYYY-MM-DD').format() >= moment().format('YYYY-MM-DD')) {
+                            console.log("notificication for : " + users[i].email);
+                            deviceArray.push(users[i].deviceToken);
+                        }
                     }
 
                     note = new apn.Notification();
