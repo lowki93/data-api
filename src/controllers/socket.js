@@ -35,6 +35,15 @@ module.exports = {
                     }
                     //module.exports.sendPairingDone(ws);
                 }
+                if (currentFile.activation === "heart") {
+
+                    current = module.exports.getCurrentUser(currentFile.token);
+
+                    if (current !== null) {
+                        console.log('send for ' + currentFile.activation);
+                        module.exports.sendDataForPairing(current.socket, currentFile.data, currentFile.activation);
+                    }
+                }
                 if (currentFile.activation === "geolocation") {
 
                     current = module.exports.getCurrentUser(currentFile.token);
