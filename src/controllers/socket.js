@@ -68,6 +68,22 @@ module.exports = {
                         module.exports.sendDataForPairing(current.socket, currentFile.data, currentFile.activation);
                     }
                 }
+                if (currentFile.activation === 'next') {
+
+                    current = module.exports.getCurrentUser(currentFile.token);
+
+                    if (current !== null) {
+                        module.exports.sendDataForPairing(current.socket, currentFile.data, currentFile.activation);
+                    }
+                }
+                if (currentFile.activation === 'end') {
+
+                    current = module.exports.getCurrentUser(currentFile.token);
+
+                    if (current !== null) {
+                        module.exports.sendDataForPairing(current.socket, currentFile.data, currentFile.activation);
+                    }
+                }
             });
 
         });
