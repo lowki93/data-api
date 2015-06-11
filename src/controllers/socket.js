@@ -11,6 +11,7 @@ module.exports = {
             ws.on('message', function (data) {
                 var current = null;
                 var currentFile = JSON.parse(data);
+                console.log(currentFile.type, currentFile.activation);
                 if (currentFile.type === 'desktop') {
                     console.log("desktop connect : " + currentFile.token);
                     var userArray = {
@@ -35,39 +36,35 @@ module.exports = {
                     }
                     //module.exports.sendPairingDone(ws);
                 }
-                if (currentFile.activation === "heart") {
+                if (currentFile.activation === 'heart') {
 
                     current = module.exports.getCurrentUser(currentFile.token);
 
                     if (current !== null) {
-                        console.log('send for ' + currentFile.activation);
                         module.exports.sendDataForPairing(current.socket, currentFile.data, currentFile.activation);
                     }
                 }
-                if (currentFile.activation === "geolocation") {
+                if (currentFile.activation === 'geolocation') {
 
                     current = module.exports.getCurrentUser(currentFile.token);
 
                     if (current !== null) {
-                        console.log('send for ' + currentFile.activation);
                         module.exports.sendDataForPairing(current.socket, currentFile.data, currentFile.activation);
                     }
                 }
-                if (currentFile.activation === "pedometer") {
+                if (currentFile.activation === 'pedometer') {
 
                     current = module.exports.getCurrentUser(currentFile.token);
 
                     if (current !== null) {
-                        console.log('send for ' + currentFile.activation);
                         module.exports.sendDataForPairing(current.socket, currentFile.data, currentFile.activation);
                     }
                 }
-                if (currentFile.activation === "photos") {
+                if (currentFile.activation === 'photos') {
 
                     current = module.exports.getCurrentUser(currentFile.token);
 
                     if (current !== null) {
-                        console.log('send for ' + currentFile.activation);
                         module.exports.sendDataForPairing(current.socket, currentFile.data, currentFile.activation);
                     }
                 }
@@ -81,6 +78,7 @@ module.exports = {
         webSocket.send(string);
     },
     sendDataForPairing: function (webSocket, data, type) {
+        console.log('send for ' + type);
         var string = JSON.stringify({activation: type, data: data});
         webSocket.send(string);
     },
