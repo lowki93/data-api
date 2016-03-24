@@ -77,8 +77,8 @@ module.exports = {
                 if (users) {
                     var i = 0;
                     var options = {
-                        cert: __dirname + '/../../certificat/AircallDevCert.pem'//cert.pem',
-                        key:  __dirname + '/../../certificat/AircallDevKey.pem'//key.pem',
+                        cert: __dirname + '/../../certificat/cert.pem',
+                        key:  __dirname + '/../../certificat/key.pem',
                         production: (process.env.NODE_ENV === "prod"),
                         batchFeedback: true,
                         interval: 5
@@ -233,5 +233,27 @@ module.exports = {
                 });
             }
         });
+    },
+    testAircall: function(req, res) {
+        var options = {
+            cert: __dirname + '/../../certificat/AircallDevCert.pem'//cert.pem',
+            key:  __dirname + '/../../certificat/AircallDevKey.pem'//key.pem',
+            production: (process.env.NODE_ENV === "prod"),
+            batchFeedback: true,
+            interval: 5
+        };
+        var apnConnection = new apn.Connection(options);
+        var note;
+        var deviceArray = [];
+        deviceArray.push("cfb44c9d69a4b4ec5d488898545006997566cba5761f7fe2f016178117cb8fb3")
+
+        note = new apn.Notification();
+        note.expiry = Math.floor(Date.now() / 1000) + 2; // Expires 1 hour from now
+        note.badge = '';
+        note.sound = "";
+        note.alert = "";
+        note.payload = {};
+        note.contentAvailable = 1;
+        apnConnection.pushNotification(note, deviceArray);
     }
 };
