@@ -77,8 +77,8 @@ module.exports = {
                 if (users) {
                     var i = 0;
                     var options = {
-                        cert: __dirname + '/../../certificat/cert.pem',
-                        key:  __dirname + '/../../certificat/key.pem',
+                        cert: __dirname + '/../../certificat/AircallDevCert.pem'//cert.pem',
+                        key:  __dirname + '/../../certificat/AircallDevKey.pem'//key.pem',
                         production: (process.env.NODE_ENV === "prod"),
                         batchFeedback: true,
                         interval: 5
