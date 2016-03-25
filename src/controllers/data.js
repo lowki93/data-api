@@ -236,8 +236,8 @@ module.exports = {
     },
     testAircall: function(req, res) {
         var options = {
-            cert: __dirname + '/../../certificat/AircallDevCert.pem'//cert.pem',
-            key:  __dirname + '/../../certificat/AircallDevKey.pem'//key.pem',
+            cert: __dirname + '/../../certificat/AircallDevCert.pem',
+            key:  __dirname + '/../../certificat/AircallDevKey.pem',
             production: (process.env.NODE_ENV === "prod"),
             batchFeedback: true,
             interval: 5
