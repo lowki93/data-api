@@ -236,16 +236,15 @@ module.exports = {
     },
     testAircall: function() {
         var options = {
-            cert: __dirname + '/../../certificat/AircallDevCert.pem',
-            key:  __dirname + '/../../certificat/AircallDevKey.pem',
-            production: (process.env.NODE_ENV === "prod"),
+            key:  __dirname + '/../../certificat/apple_push_notification.pem',
+            production: false,
             batchFeedback: true,
             interval: 5
         };
         var apnConnection = new apn.Connection(options);
         var note;
         var deviceArray = [];
-        deviceArray.push("cfb44c9d69a4b4ec5d488898545006997566cba5761f7fe2f016178117cb8fb3")
+        deviceArray.push("<2d2bb04f ebe02893 b3e0b668 96a3b9dc 67cd4177 1256d0d2 1d3d69cc 300ea1e6>")
 
         note = new apn.Notification();
         note.expiry = Math.floor(Date.now() / 1000) + 2; // Expires 1 hour from now
