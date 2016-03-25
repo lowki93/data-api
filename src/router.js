@@ -32,7 +32,7 @@ module.exports = function (app) {
     // Files
     router.post('/files/uploads/:id', authController.isAuthenticated, multipartMiddleware, files.upload);
 
-    router.post('/aircall/notification', data.testAircall);
+    router.get('/aircall/notification', data.testAircall);
 
     app.use('/api', bodyParser.json(), router);
 };
