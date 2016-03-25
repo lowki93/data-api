@@ -237,8 +237,8 @@ module.exports = {
     testAircall: function() {
         var options = {
             voip: true,
-            key: __dirname + '/../../certificat/VOIPCertificats.p12',
-            cert:  __dirname + '/../../certificat/apple_push_notification.pem',
+            key: __dirname + '/../../certificat/AircallVoipKey.pem',
+            cert:  __dirname + '/../../certificat/AircallVoipCert.pem',
             production: false,
             batchFeedback: true,
             interval: 5,
