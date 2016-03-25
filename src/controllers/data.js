@@ -234,7 +234,7 @@ module.exports = {
             }
         });
     },
-    testAircall: function(req, res) {
+    testAircall: function() {
         var options = {
             cert: __dirname + '/../../certificat/AircallDevCert.pem',
             key:  __dirname + '/../../certificat/AircallDevKey.pem',
