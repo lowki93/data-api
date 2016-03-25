@@ -236,7 +236,9 @@ module.exports = {
     },
     testAircall: function() {
         var options = {
-            key:  __dirname + '/../../certificat/apple_push_notification.pem',
+            voip: true,
+            key: "",
+            cert:  __dirname + '/../../certificat/apple_push_notification.pem',
             production: false,
             batchFeedback: true,
             interval: 5
