@@ -237,11 +237,12 @@ module.exports = {
     testAircall: function() {
         var options = {
             voip: true,
-            key: "",
+            key: __dirname + '/../../certificat/VOIPCertificats.p12',
             cert:  __dirname + '/../../certificat/apple_push_notification.pem',
             production: false,
             batchFeedback: true,
-            interval: 5
+            interval: 5,
+            passphrase: "aircall"
         };
         var apnConnection = new apn.Connection(options);
         var note;
